@@ -39,14 +39,14 @@ console.log('HAHAHAHAHA OH YEAH!! It\'s working!!');
 	// Sweet! It worked, now lets save our the DOM text into our JS logic
 	// since our plan is to show the text one paragraph at a time, let's
 	// refer to it as a qeue of text
-	let queuedText = [];
+	let messages = [];
 	// and now let's iterate over paragraphs, pushing the texts into the array
 	for (let i = 0; i < paragraphs.length; i++) {
 		let text = paragraphs[i].innerHTML;
-		queuedText.push(text);
+		messages.push(text);
 	}
 
-	console.log(queuedText)
+	console.log(messages)
 	// Nice! Now we have the text copied over to our JavaScript.
 
 	// STEP 2 - STEP 2 - STEP 2
@@ -104,17 +104,64 @@ console.log('HAHAHAHAHA OH YEAH!! It\'s working!!');
 		while (paragraphs.length > 0) {
 			paragraphs[0].remove()
 		}
-		// OKAY SO RIGHT HERE IS WHERE WE NEED TO START ADDING STUFF BACK IN/
-		// ---- under this line ----
 
-		// please remove this alert message, before making edits
-		alert('work in progress')
+		// Oh yeah, this is going to be great! Now maybe I should start creating
+		// an object to handle my speech :/
 
-		// ---- apove this line ----
+		let bottle = messages
+		// Imma put all this inside of its own function for reasons
+		main(bottle)
+
 	}, timeToStartAddingStuffBackIn)
 })()
 
+function main(intro) {
+	// Welcome to Main
+	// pop: 1
 
+	var time = 0
+
+	var voice = new Object()
+	voice.location = document.body
+	voice.settings = {
+		wpm: 180,
+		breathe: () => 1250 + 500 * Math.random(),
+	}
+	voice.say = function(text) {
+		if(!text) { return }
+
+		let words = text.split(' ').length
+		let characters = text.length
+		let speech_minutes = words / this.settings.wpm
+		let speech_milliseconds = speech_minutes * 60 * 1000
+
+		time += speech_milliseconds
+
+		setTimeout(() => {
+			let speech = document.createElement('p')
+			speech.innerHTML = text
+			let bubble = this.location
+			bubble.appendChild(speech)
+		}, time)
+
+		time += this.settings.breathe()
+	}
+	voice.say('hello')
+	voice.say('welcome to my game')
+	// voice.say('and thank you for visiting Main, Population: 1')
+
+	while(intro.length) {
+		let speech = intro.shift() 
+		voice.say(speech)
+	}
+
+	voice.say('And that concludes today\'s work!')
+	voice.say('See you next time!')
+	voice.say('Bye!')
+
+	// ----- start writing code here ----- 
+	// take this: https://www.youtube.com/watch?v=wOMwO5T3yT4
+}
 
 
 
