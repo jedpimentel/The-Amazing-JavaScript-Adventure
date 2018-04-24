@@ -1,5 +1,8 @@
 // THE AMAZING JAVASCRIPT ADVENTURE
 
+// ===== PLAY THIS MUSIC IN THE BACKGROUND =====
+// 	
+
 // Holy SHIT, this is the SECOND time I move from one file to another
 // First from README.md to index.html, now from index.html to script.js
 // I sure as hell don't want to kep moving around, so I'll stay here a while
@@ -23,6 +26,13 @@ console.log('HAHAHAHAHA OH YEAH!! It\'s working!!');
 // 2) Remove the existing text from the html
 // 3) Put the text back into the html, but one line at a time
 
+// imma also leave this here, for reasons
+const DEBUG_MODE = false;
+
+const INITIAL_PAUSE = 3000;
+const TIME_SPENT_DELETING_INITIAL_SCREEN = 3000;
+
+
 // let's try this
 (() => {
 	// first let us add a new paragraph to make sure everything is in order
@@ -30,7 +40,7 @@ console.log('HAHAHAHAHA OH YEAH!! It\'s working!!');
 	let newParagraph = document.createElement('p');
 	newParagraph.innerHTML = 'Yup, let me try this out real quick...';
 
-	// since the DOM on only p tags inside the body, this syntax should be fine
+	// since the DOM only has p tags inside the body, this syntax should be fine
 	document.body.appendChild(newParagraph);
 	// if you check "paragraphs", it should now ALSO reference this elements
 
@@ -59,9 +69,15 @@ console.log('HAHAHAHAHA OH YEAH!! It\'s working!!');
 	// seem obsessive, but trust me, it'll be cool
 
 	// Since JS doesn't have a wait() function, we're gonna be using setTimeout
-	// to run some code after 3000 milliseconds has passed, for clarity:
-	let initialPause = 3000;
-	let timeSpentDeleting = 3000;
+	// to run some code after some time has passed:
+	let initialPause = INITIAL_PAUSE;
+	let timeSpentDeleting = TIME_SPENT_DELETING_INITIAL_SCREEN;
+
+	// let's speed things up if in DEBUG_MODE
+	if(DEBUG_MODE) {
+		initialPause = 500
+		timeSpentDeleting = 500
+	}
 
 	// in order to get a random character, we can first get a random
 	// paragraph, then a random character from that paragraph.
@@ -120,6 +136,12 @@ function main(intro) {
 	// pop: 1
 
 	var time = 0
+	var distance = 0
+
+	const first_words = 50000
+	if(DEBUG_MODE) {
+		time -= first_words
+	}
 
 	var voice = new Object()
 	voice.location = document.body
@@ -135,16 +157,67 @@ function main(intro) {
 		let speech_minutes = words / this.settings.wpm
 		let speech_milliseconds = speech_minutes * 60 * 1000
 
-		time += speech_milliseconds
+		
+		// console.log(text, text[0], text[text.length - 1])
+		if(text[0] == '"' &&  text[text.length - 1] == '"') {
+			// quoted text: type out one word at a time
 
-		setTimeout(() => {
+			let presses = text.length - 2
+			let press_times = []
+
+			for (let i = 1; i < text.length - 1; i++) {
+				press_times.push(speech_milliseconds * Math.random())
+			}
+
 			let speech = document.createElement('p')
-			speech.innerHTML = text
+			let spoken = ''
+			speech.innerHTML = '""'
 			let bubble = this.location
-			bubble.appendChild(speech)
-		}, time)
 
-		time += this.settings.breathe()
+			time += this.settings.breathe()
+
+			setTimeout(() => {
+				bubble.appendChild(speech)
+				window.scrollTo(0, bubble.scrollHeight)
+				distance =  bubble.scrollHeight
+				console.log(distance)
+			}, time)
+
+			for (let i = 1; i < text.length - 1; i++) {
+				setTimeout(() => {
+					spoken += text[i]
+					speech.innerHTML = '"' + spoken + '"'
+				}, time + i * speech_milliseconds / (text.length - 1))
+			}
+
+			time += speech_milliseconds
+
+		} else {
+
+			time += speech_milliseconds
+			setTimeout(() => {
+				let speech = document.createElement('p')
+				speech.innerHTML = text
+				let bubble = this.location
+				bubble.appendChild(speech)
+				window.scrollTo(0, bubble.scrollHeight)
+				distance =  bubble.scrollHeight
+				console.log(distance)
+			}, time)
+			time += this.settings.breathe()
+		}
+
+		// time += speech_milliseconds
+		// setTimeout(() => {
+		// 	let speech = document.createElement('p')
+		// 	speech.innerHTML = text
+		// 	let bubble = this.location
+		// 	bubble.appendChild(speech)
+		// 	window.scrollTo(0, bubble.scrollHeight)
+		// 	distance =  bubble.scrollHeight
+		// 	console.log(distance)
+		// }, time)
+		// time += this.settings.breathe()
 	}
 	voice.say('hello')
 	voice.say('welcome to my game')
@@ -155,11 +228,45 @@ function main(intro) {
 		voice.say(speech)
 	}
 
+	voice.say('"...              "')
+	voice.say('* and so our hero learned to talk *')
+	voice.say('"..."')
+	voice.say('"i... um..."')
+	voice.say('"i learned how to talk"')
+	voice.say('"that\'s cool"')
+	voice.say('"know what else is cool?"')
+	voice.say('"adventures"')
+	voice.say('"let\'s go on an adventure"')
+	voice.say('* And so our hero travelled West *')
+	voice.say('Driving an Old Carburated Car with no Electronics.')
+	voice.say('None on the car, none on the person.')
+	voice.say('An hour goes by...')
+	voice.say(
+		"Behind them, a HUGE DEMONIC PORTAL opens, spewing red mist \
+		into the air."
+	)
+	voice.say('"oh shit"')
+	voice.say('A loud rumbling can be felt on the ground.')
+	voice.say('"oh shit oh shit oh shit"')
+	voice.say('The Earth swells and fruits a GIANT SOLID ROCK.')
+	voice.say('"oh crap"')
+	voice.say('A mile high, a mile accross.')
+	voice.say('"dammit"')
+	voice.say('"i take it back"')
+	voice.say('"i hate adventures"')
+	voice.say('The GIANT SOLID ROCK was completely flat and smoothe.')
+	voice.say('"looks like a giant cube..."')
+	voice.say('A Large Red Door was at the base.')
+	voice.say('"whoa..."')
+	voice.say('"whoaa, hell no, timeout... timeout..."')
+	voice.say('"...i give up"')
+	voice.say('...')
+	voice.say('"..."')
+
+	// ----- start writing code above here ----- 
 	voice.say('And that concludes today\'s work!')
 	voice.say('See you next time!')
 	voice.say('Bye!')
-
-	// ----- start writing code here ----- 
 	// take this: https://www.youtube.com/watch?v=wOMwO5T3yT4
 }
 
