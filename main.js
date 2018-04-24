@@ -205,19 +205,8 @@ function main(intro) {
 				console.log(distance)
 			}, time)
 			time += this.settings.breathe()
+			
 		}
-
-		// time += speech_milliseconds
-		// setTimeout(() => {
-		// 	let speech = document.createElement('p')
-		// 	speech.innerHTML = text
-		// 	let bubble = this.location
-		// 	bubble.appendChild(speech)
-		// 	window.scrollTo(0, bubble.scrollHeight)
-		// 	distance =  bubble.scrollHeight
-		// 	console.log(distance)
-		// }, time)
-		// time += this.settings.breathe()
 	}
 	voice.say('hello')
 	voice.say('welcome to my game')
@@ -259,7 +248,7 @@ function main(intro) {
 	voice.say('A Large Red Door was at the base.')
 	voice.say('"whoa..."')
 	voice.say('"whoaa, hell no, timeout... timeout..."')
-	voice.say('"...i give up"')
+	voice.say('"...	i give up"')
 	voice.say('...')
 	voice.say('"..."')
 
