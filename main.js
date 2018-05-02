@@ -38,7 +38,6 @@ const TIME_SPENT_DELETING_INITIAL_SCREEN = 3000;
 	// first let us add a new paragraph to make sure everything is in order
 	let paragraphs = document.getElementsByTagName('p');
 	let newParagraph = document.createElement('p');
-	newParagraph.innerHTML = 'Yup, let me try this out real quick...';
 
 	// since the DOM only has p tags inside the body, this syntax should be fine
 	document.body.appendChild(newParagraph);
@@ -124,7 +123,12 @@ const TIME_SPENT_DELETING_INITIAL_SCREEN = 3000;
 		// Oh yeah, this is going to be great! Now maybe I should start creating
 		// an object to handle my speech :/
 
-		let bottle = messages
+		// let bottle = messages
+		let bottle = [
+			'Yup, let me try this out real quick...',
+		]
+
+		
 		// Imma put all this inside of its own function for reasons
 		main(bottle)
 
@@ -135,7 +139,7 @@ function main(intro) {
 	// Welcome to Main
 	// pop: 1
 
-	var time = 0
+	var time = 1000
 	var distance = 0
 
 	const first_words = 50000
@@ -208,8 +212,8 @@ function main(intro) {
 			
 		}
 	}
-	voice.say('hello')
-	voice.say('welcome to my game')
+	// voice.say('hello')
+	// voice.say('welcome to my game')
 	// voice.say('and thank you for visiting Main, Population: 1')
 
 	while(intro.length) {
@@ -217,7 +221,7 @@ function main(intro) {
 		voice.say(speech)
 	}
 
-	voice.say('"...              "')
+	voice.say('"  .....  "')
 	voice.say('* and so our hero learned to talk *')
 	voice.say('"..."')
 	voice.say('"i... um..."')
@@ -227,8 +231,8 @@ function main(intro) {
 	voice.say('"adventures"')
 	voice.say('"let\'s go on an adventure"')
 	voice.say('* And so our hero travelled West *')
-	voice.say('Driving an Old Carburated Car with no Electronics.')
-	voice.say('None on the car, none on the person.')
+	voice.say('Driving an Old Carburated Car.')
+	voice.say('Alone.')
 	voice.say('An hour goes by...')
 	voice.say(
 		"Behind them, a HUGE DEMONIC PORTAL opens, spewing red mist \
