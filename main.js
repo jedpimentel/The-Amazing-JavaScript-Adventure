@@ -27,6 +27,7 @@ console.log('HAHAHAHAHA OH YEAH!! It\'s working!!');
 // 3) Put the text back into the html, but one line at a time
 
 // imma also leave this here, for reasons
+// qwer
 const DEBUG_MODE = false;
 
 const INITIAL_PAUSE = 3000;
@@ -142,13 +143,35 @@ function main(intro) {
 	var time = 1000
 	var distance = 0
 
-	const first_words = 50000
+	// qwer
+	const FAST_FORWARD_TIME = 70000
 	if(DEBUG_MODE) {
-		time -= first_words
+		time -= FAST_FORWARD_TIME
+	}
+
+	const settings = {
+		SLACK_MILLISECONDS: 20,
+		INITIAL_BOTTOM_HEIGHT: '66px',
+	}
+
+
+	let top = document.createElement('div')
+	// top.style.height = '200px'
+	let bottom = document.createElement('div')
+	bottom.style.height = settings.INITIAL_BOTTOM_HEIGHT
+
+	document.body.appendChild(top)
+	document.body.appendChild(bottom)
+
+	function timeMachine(func) {
+		time += settings.SLACK_MILLISECONDS
+		setTimeout(() => {
+			func()
+		}, time)
 	}
 
 	var voice = new Object()
-	voice.location = document.body
+	voice.location = top
 	voice.settings = {
 		wpm: 180,
 		breathe: () => 1250 + 500 * Math.random(),
@@ -160,7 +183,6 @@ function main(intro) {
 		let characters = text.length
 		let speech_minutes = words / this.settings.wpm
 		let speech_milliseconds = speech_minutes * 60 * 1000
-
 		
 		// console.log(text, text[0], text[text.length - 1])
 		if(text[0] == '"' &&  text[text.length - 1] == '"') {
@@ -182,8 +204,8 @@ function main(intro) {
 
 			setTimeout(() => {
 				bubble.appendChild(speech)
-				window.scrollTo(0, bubble.scrollHeight)
-				distance =  bubble.scrollHeight
+				window.scrollTo(0, document.body.scrollHeight)
+				distance = bubble.scrollHeight
 				console.log(distance)
 			}, time)
 
@@ -204,21 +226,37 @@ function main(intro) {
 				speech.innerHTML = text
 				let bubble = this.location
 				bubble.appendChild(speech)
-				window.scrollTo(0, bubble.scrollHeight)
-				distance =  bubble.scrollHeight
+				window.scrollTo(0, document.body.scrollHeight)
+				distance = bubble.scrollHeight
 				console.log(distance)
 			}, time)
 			time += this.settings.breathe()
 			
 		}
 	}
-	// voice.say('hello')
-	// voice.say('welcome to my game')
-	// voice.say('and thank you for visiting Main, Population: 1')
+	intro = [
+		'hello',
+		'this is my game',
+		'[ WELCOME TO MAIN ]',
+		'Population: 1',
+		'...',
+		'The main goal of Main is to make the game called Main',
+		'(see: recursion)',
+		'...',
+		'I wake up with mild amnesia and try to remember who I am',
+		' . . . ',
+		'An errant though enters my mind, and I remember:',
+		'By day I work.',
+		'By night I sleep.',
+		'I like nice things, and nice people, and try to be one myself.',
+		'After all, I\'m always going to be stuck living with myself.',
+		'I whish this were a more common sentiment.',
+		'.....',
+	]
 
 	while(intro.length) {
 		let speech = intro.shift() 
-		voice.say(speech)
+		voice.say('"' + speech + '"')
 	}
 
 	voice.say('"  .....  "')
@@ -238,9 +276,20 @@ function main(intro) {
 		"Behind them, a HUGE DEMONIC PORTAL opens, spewing red mist \
 		into the air."
 	)
+	// portal.say('pssss.... fffshrurshshhhhshshtt tsssss')
 	voice.say('"oh shit"')
 	voice.say('A loud rumbling can be felt on the ground.')
 	voice.say('"oh shit oh shit oh shit"')
+
+	// TODO: fix the scrolling error before going back to this
+	// dumb function name
+	time += 4000
+	timeMachine(() => {
+		bottom.style.height = '50vh'
+		window.scrollTo(0, document.body.scrollHeight)
+	})
+	time += 1000
+
 	voice.say('The Earth swells and fruits a GIANT SOLID ROCK.')
 	voice.say('"oh crap"')
 	voice.say('A mile high, a mile accross.')
